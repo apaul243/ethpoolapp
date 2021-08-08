@@ -11,6 +11,10 @@ contract ethPool {
     
     using SafeMath for uint;
     
+    struct ethProvider {
+        uint256 balance;
+        uint256 rewardsTillNow;
+    }
     
     event rewardamount(uint256 amt);
     
@@ -27,14 +31,13 @@ contract ethPool {
         multiplier = 100000000;
     }
     
-    mapping(address=>uint) providers;
-    mapping(address=>uint) rewards;
+    mapping(address=>ethProvider) providers;
 
     
     function depositEth() public payable {
         require(msg.value >0,"Deposit amount has to be more than 0");  
-        providers[msg.sender] += msg.value;
-        rewards[msg.sender] = totalRewardPerEth;
+        providers[msg.sender].balance += msg.value;
+        providers[msg.sender].rewardsTillNow = totalRewardPerEth;
         totalBalance += msg.value;
     }
     
@@ -50,12 +53,12 @@ contract ethPool {
     
     function withdrawEthBalance(uint256 amount) public payable {
         require(amount > 0,"Deposit amount has to be more than 0");  
-        require(amount < providers[msg.sender],"Cannot withdraw more than you have");
-        uint256 rewardAmount = ((totalRewardPerEth - rewards[msg.sender])*amount/multiplier);
+        require(amount < providers[msg.sender].balance,"Cannot withdraw more than you have");
+        uint256 rewardAmount = ((totalRewardPerEth - providers[msg.sender].rewardsTillNow)*amount/multiplier);
         emit rewardamount(rewardAmount);
         uint256 withdrawAmount = amount + rewardAmount;
         emit rewardamount(withdrawAmount);
-        providers[msg.sender] -= amount;
+        providers[msg.sender].balance -= amount;
         totalBalance -= amount;
         rewardBalance-= rewardAmount;
         payable(msg.sender).transfer(withdrawAmount);
@@ -65,5 +68,7 @@ contract ethPool {
     function getRewardBalance() public view returns (uint) {
          return address(this).balance;
     }
-
+        
+    
+    
 }
