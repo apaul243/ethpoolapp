@@ -35,7 +35,7 @@ Liquiduty protocols like Uniswap/Compound mint/burn 'aTokens' to keep solve thes
     userB : (200)*(0.3 - 0.0) = 60 eth
     userC : (250)*(0.3 - 0.1) = 50 eth // 90+60+50 = 200 eth
 
-# Note: This contract has been designed considering Users withdraw their complete deposits at once. Program might have to be modified if they do partial    withdrawals. In that case we will have (address => mapping(uint=>uint)) providers; which will keep record of totalRewardPerEth at every deposit.
+ Note: This contract has been designed considering Users withdraw their complete deposits at once. Program might have to be modified if they do partial    withdrawals. In that case we will have (address => mapping(uint=>uint)) providers; which will keep record of totalRewardPerEth at every deposit.
 
 ## SMART CONTRACT TESTS (ethPoolTests.js)
 
