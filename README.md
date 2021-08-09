@@ -1,20 +1,62 @@
 # ethpoolapp
 
-The ethpoolapp enables users to deposit funds in the eth pool and receive proportionate rewards for the same.
+## SMART CONTRACT DESIGN (ethPool.sol)
+
+Design can be little tricky because of : 
+# Problems:
+1. How do we distribute rewards ? If we have many users (let's say 10,000), will we update the "Rewards Balance" of all 10k users every time the team adds rewards?
+   Such operation can be very expensive storage and operation wise. My design includes calculation of rewards accrued at the time of method call.
+2. Different users have different entry point and they are not be eligible for rewards added before their entry into the pool (see challenge example) 
+
+# Solutions:
+Liquiduty protocols like Uniswap/Compound mint/burn 'aTokens' to keep solve these issues. I have come up with an alternate and innovative algorithim to overcome the above two challenges. 
+
+  uint256 totalRewardPerEth = 0;
+  mapping(address=>uint) providers; // maintains total deposits of each users
+  mapping(address=>uint) rewards;  // maintains totalRewardPerEth when the user entered the pool
+  totalRewardPerEth = weeklyRewardAdded/totalPoolDeposits; // Let's say pool has 500 eth as deposits and team adds 50 eth as rewards. 
+
+ Let us understand above with an example: 
+  
+-> Let's say pool has 500 eth as deposits(userA -->300 eth, userB --> 200 eth) and team adds 50 eth as rewards. Now totalRewardPerEth = 50/500 = 0.1 reward per eth 
+   of deposit. 
+   
+   userA{providers[address]:300, rewards[address]: 0} // rewards mapping basically calculates the totalRewardPerEth when the user entered the pool
+   userB{providers[address]:200, rewards[address]: 0}
+   totalRewardPerEth = 0.1 ( after team adds rewards)
+   
+-> User C enters and adds 250 eth more to the pool. Team adds 150 more eth as rewards. Now totalRewardPerEth = 150/750 = 0.2 reward per eth   
+   
+   userC{providers[address]:250, rewards[address]: 0.1} // For userC, rewards[address] has been set to totalRewardPerEth when he entered the pool.
+   totalRewardPerEth = 0.3
+ 
+ -> How much rewards will userA , userB and userC get if they want to withdraw at end of week2 ?
+    userA : (300)*(0.3 - 0.0) = 90 eth // formula = balance*(totalRewardPerEth at Pool Entry - totalRewardPerEth current)
+    userB : (200)*(0.3 - 0.0) = 60 eth
+    userC : (250)*(0.3 - 0.1) = 50 eth // 90+60+50 = 200 eth
+
+# Note: This contract has been designed considering Users withdraw their complete deposits at once. Program might have to be modified if they do partial    withdrawals. In that case we will have (address => mapping(uint=>uint)) providers; which will keep record of totalRewardPerEth at every deposit.
+
+## SMART CONTRACT TESTS (ethPoolTests.js)
+
+The above smart contract has been thoroughly tested using the chai/mocha framework using the examples given in the challenge statement. 
+
+## SMART CONTRACT SCRIPTS (deploy.js and ropstenDataLoad)
+
+Four different accounts were created using Metamask wallet @Ropsten test network and funds were loaded using test faucet. Infura node was setup to connect to Ropsten net. Config is available in hardhat.config. 
+
+# deploy.js
+Deploys the contract to Ropsten testnet and logs the address of the deployed contract
+
+# ropstenDataLoad
+This script has been used for the following: (1) Perform depositEth() from users (2) perform depositRewards() from team (3) Provide methods to query contract state using ethers.provider
+
+## GraphQL Design
 
 
-This problem can be a little tricky because of these questions ?
 
--- Let's say our ethPool has 10,000 eth providers. Now, ethTeam adds 100 Eth to the rewards pool which have to be distributed among these 10,000 users.
--- Big question is - will we update 10,000 entries everytime the team adds rewards? That can be a very costly operation
--- Since no of users and the weekly reward amount keeps changing,, the reward share of each user is also changing and its not possible to come up with a one simple equation which can give us a user's reward share at any given time.
 
-To solve these issues, I have come up with a simple algorithim. This would avoid the need of updating every user's book at each reward addition. This calculation will only be done when user requests to see his balance or withdraw his share. 
 
-High Level Overview
 
---> Contract will maintain a 'rewardPerEth' counter, everytime it adds rewards. For ex, let's say at end of week 5, we have total of 5,000 eth as deposits and team adds 500 eth as rewards. For that week, rewardPerEth = 500/5000 = 0.1 reward per eth
---> Let us assume Mark deposits 10 eth in the pool before week 5 and Jana deposits 20 eth after week 5.
---> End of week 6, let us assume total deposits have gone upto 6000 eth and reward added have been 300 eth. Reward per eth --> 300/6000 = 0.05 eth
-How much would be mark's total rewards = (0.1 + 0.05)*10 = (0.15*10) = 1.5 eth. Jana's total rewards = (0.05*20) = 1 eth
---> How do we maintain 
+
+
