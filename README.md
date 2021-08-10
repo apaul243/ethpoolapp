@@ -59,28 +59,28 @@ This script provides methods to : readUserBalance, readContractBalance, readTota
 High level graphQL design would look like something this:
 
 *type ethPool @entity {
-  id: ID!
-  address: Bytes!   // Contract Address
-  totalDeposits: BigInt! # uint256  // Total deposits in the pool at a given time
-  totalRewards: BigInt! # uint256   // Total Rewards in the pool at a given time
-  Users: User
+  id: ID! \
+  address: Bytes!   // Contract Address  \
+  totalDeposits: BigInt! # uint256  // Total deposits in the pool at a given time   \
+  totalRewards: BigInt! # uint256   // Total Rewards in the pool at a given time   \
+  Users: User   \
+}   \
+type User @entity {   \
+  id: ID!   \
+  address: Bytes!  \
+  totalEthProvided: BigInt! # uint256   \
+  deposits : Deposit   \
+  withdrawals : Withdrawal  \
 }
-type User @entity {
-  id: ID!
-  address: Bytes!
-  totalEthProvided: BigInt! # uint256
-  deposits : Deposit
-  withdrawals : Withdrawal
-}
-type Deposit @entity {
-  id: ID!
-  timestamp: Int!
-  amount: BigInt! # uint256
-}
-type Withdrawal @entity {
-  id: ID!
-  timestamp: Int!
-  amount: BigInt! # uint256
+type Deposit @entity {  \
+  id: ID!  \
+  timestamp: Int!  \
+  amount: BigInt! # uint256   \
+}   \
+type Withdrawal @entity {  \
+  id: ID!  \
+  timestamp: Int!  \
+  amount: BigInt! # uint256  \
 }*
 
 
