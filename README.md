@@ -3,12 +3,12 @@
 ## SMART CONTRACT DESIGN (ethPool.sol)
 
 Design can be little tricky because of : \
-**Problems:**
+**Problems:** \
 1. How do we distribute rewards ? If we have many users (let's say 10,000), will we update the "Rewards Balance" of all 10k users every time the team adds rewards?
    Such operation can be very expensive storage and operation wise. My design includes calculation of rewards accrued at the time of method call.
 2. Different users have different entry point and they are not be eligible for rewards added before their entry into the pool (see challenge example) 
 
-**Solutions:**
+**Solutions:** \
 Liquiduty protocols like Uniswap/Compound mint/burn 'aTokens' to solve these issues. I have come up with an innovative algorithim to overcome the above two challenges. 
 
   uint256 RewardPerEth = 0 \
@@ -27,7 +27,7 @@ Liquiduty protocols like Uniswap/Compound mint/burn 'aTokens' to solve these iss
    
 **User C enters and adds 250 eth more to the pool. Team adds 150 more eth as rewards. Now RewardPerEth = 150/750 = 0.2 reward per eth**   
    
-   userC{providers[address]:250, rewards[address]: 0.1} // For userC, rewards[address] has been set to RewardPerEth when he entered the pool.
+   userC{providers[address]:250, rewards[address]: 0.1} // For userC, rewards[address] has been set to RewardPerEth when he entered the pool. \
    RewardPerEth = 0.3
  
 **How much rewards will userA , userB and userC get if they want to withdraw at end of week2 ?**
