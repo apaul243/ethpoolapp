@@ -60,9 +60,9 @@ High level graphQL design would look like something this:
 
 *type ethPool @entity {
   id: ID! \
-  address: Bytes!   // Contract Address  \
-  totalDeposits: BigInt! # uint256  // Total deposits in the pool at a given time   \
-  totalRewards: BigInt! # uint256   // Total Rewards in the pool at a given time   \
+  address: Bytes!     \
+  totalDeposits: BigInt! # uint256     \
+  totalRewards: BigInt! # uint256     \
   Users: User   \
 }   \
 type User @entity {   \
@@ -71,7 +71,7 @@ type User @entity {   \
   totalEthProvided: BigInt! # uint256   \
   deposits : Deposit   \
   withdrawals : Withdrawal  \
-}
+} \
 type Deposit @entity {  \
   id: ID!  \
   timestamp: Int!  \
