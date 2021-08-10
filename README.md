@@ -1,6 +1,6 @@
 # ethpoolapp
 
-**VERIFIED CONTRACT** : https://ropsten.etherscan.io/address/0x57c2d3113b5e483f8839248Da50f80eDfeb1EAD0
+**VERIFIED CONTRACT** : https://ropsten.etherscan.io/address/0x57c2d3113b5e483f8839248Da50f80eDfeb1EAD0 \
 **SUBGRAPH** : https://thegraph.com/studio/subgraph/ethpoolgraph/
 
 ## SMART CONTRACT DESIGN (ethPool.sol)
