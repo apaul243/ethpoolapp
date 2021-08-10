@@ -3,7 +3,7 @@
 ## SMART CONTRACT DESIGN (ethPool.sol)
 
 Design can be little tricky because of : 
-# Problems:
+*Problems:*
 1. How do we distribute rewards ? If we have many users (let's say 10,000), will we update the "Rewards Balance" of all 10k users every time the team adds rewards?
    Such operation can be very expensive storage and operation wise. My design includes calculation of rewards accrued at the time of method call.
 2. Different users have different entry point and they are not be eligible for rewards added before their entry into the pool (see challenge example) 
