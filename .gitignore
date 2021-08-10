@@ -1,8 +1,8 @@
-#Main
-
-package-lock.json
 node_modules
+package-lock.json
 
 #Hardhat files
 cache
 artifacts
+.env
+

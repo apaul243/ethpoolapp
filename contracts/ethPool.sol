@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity ^0.8.3;
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 /**
@@ -12,7 +12,9 @@ contract ethPool {
     using SafeMath for uint;
     
     
-    event rewardamount(uint256 amt);
+    event customerDeposit(uint256 amt);
+    event rewardsAdded(uint256 amt);
+    event customerWithdrawal(uint256 amt);
     
     address private teamAddress;
     uint256 rewardBalance;
@@ -20,15 +22,15 @@ contract ethPool {
     uint256 rewardPerEth;
     uint256 totalRewardPerEth;
     uint multiplier;
+    mapping(address=>uint) providers;
+    mapping(address=>uint) rewards;
 
-    constructor(address addr){
-        teamAddress = addr;
+    constructor(){
+        teamAddress = msg.sender;
         rewardBalance = 0;
         multiplier = 100000000;
     }
-    
-    mapping(address=>uint) providers;
-    mapping(address=>uint) rewards;
+
 
     
     function depositEth() public payable {
@@ -36,6 +38,7 @@ contract ethPool {
         providers[msg.sender] += msg.value;
         rewards[msg.sender] = totalRewardPerEth;
         totalBalance += msg.value;
+        emit customerDeposit(msg.value);
     }
     
     function addRewards() public payable {
@@ -43,27 +46,37 @@ contract ethPool {
         require(msg.value > 0,"Deposit amount has to be more than 0");  
         rewardBalance += msg.value;
         rewardPerEth = ((msg.value*multiplier)/totalBalance); 
-        emit rewardamount(rewardPerEth);
         totalRewardPerEth += rewardPerEth; 
-        
+        emit rewardsAdded(msg.value);
     }
     
     function withdrawEthBalance(uint256 amount) public payable {
         require(amount > 0,"Deposit amount has to be more than 0");  
         require(amount < providers[msg.sender],"Cannot withdraw more than you have");
         uint256 rewardAmount = ((totalRewardPerEth - rewards[msg.sender])*amount/multiplier);
-        emit rewardamount(rewardAmount);
         uint256 withdrawAmount = amount + rewardAmount;
-        emit rewardamount(withdrawAmount);
         providers[msg.sender] -= amount;
         totalBalance -= amount;
         rewardBalance-= rewardAmount;
         payable(msg.sender).transfer(withdrawAmount);
+        emit customerWithdrawal(withdrawAmount);
     }
     
-    
+    function getContractBalance() public view returns (uint) {
+        return address(this).balance;
+    }
+        
+    function getUserBalance(address user) public view returns (uint) {
+        return providers[user];
+    }
+        
     function getRewardBalance() public view returns (uint) {
-         return address(this).balance;
-    }
-
+        return rewardBalance;
+    }     
+            
+            
+    function getTotalBalance() public view returns (uint) {
+        return totalBalance;
+    }    
+     	
 }

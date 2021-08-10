@@ -12,18 +12,14 @@ describe("Exhaustive testing: NFT MarketPlace", function () {
 	});
 	
 	
-	it("Deploying NFTMarket Contract", async function () {
+	it("Deploy ethPool Contract", async function () {
 	/* Deploy the Auction Market Place*/  
-	//	await console.log("Note: A Timeout has been added in-between phases to increase readability")
 		await console.log("Deploying Smart Contracts...")
-		await console.log(teamaddr.address)
 		const market = await ethers.getContractFactory("ethPool")
-		ethpool = await market.deploy(teamaddr.address)
+		ethpool = await market.deploy()
 		await ethpool.deployed()
 		ethpooladdress = ethpool.address
-
 		await console.log(ethpooladdress)
-		
 	});
 	
 
@@ -36,9 +32,8 @@ describe("Exhaustive testing: NFT MarketPlace", function () {
 		var add2bal = await addr2.getBalance() // calculating previous bidder's balance
 		var address2Balance = ethers.utils.formatEther(add2bal)	
 		console.log(address2Balance) */
-		var add2bal = await ethpool.getRewardBalance() // calculating previous bidder's balance
+		var add2bal = await ethpool.getContractBalance() // calculating previous bidder's balance
 		var address2Balance = ethers.utils.formatEther(add2bal)	
-		console.log("here it is " + address2Balance)
 	});
 	
     it("Someone else besides the team tries to add rewards", async function () {
@@ -86,7 +81,7 @@ describe("Exhaustive testing: NFT MarketPlace", function () {
 		var add2bal = await addr1.getBalance() // calculating previous bidder's balance
 		var address2Balance = ethers.utils.formatEther(add2bal)	
 		console.log(address2Balance) 		
-		console.log("addr3 should get 50 eth")
+		console.log("addr3 should get 70 eth")
 		var num = BigInt(49999990000000000000)
 		await ethpool.connect(addr1).withdrawEthBalance(num)
 		var add3bal = await addr1.getBalance() // calculating previous bidder's balance

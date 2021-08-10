@@ -1,28 +1,24 @@
 {
-  "name": "ethpoolapp",
+  "name": "testProj",
   "version": "1.0.0",
-  "description": "Eth rewards collector",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/apaul243/ethpoolapp.git"
-  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/apaul243/ethpoolapp/issues"
-  },
-  "homepage": "https://github.com/apaul243/ethpoolapp#readme",
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
-    "@openzeppelin/contracts": "^4.2.0",
     "chai": "^4.3.4",
     "ethereum-waffle": "^3.4.0",
     "ethers": "^5.4.4",
     "hardhat": "^2.6.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.2.0",
+    "dotenv": "^10.0.0"
   }
 }
