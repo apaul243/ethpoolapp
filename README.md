@@ -14,7 +14,7 @@ Liquiduty protocols like Uniswap/Compound mint/burn 'aTokens' to solve these iss
   uint256 RewardPerEth = 0 \
   mapping(address=>uint) providers // maintains total deposits of each users \
   mapping(address=>uint) rewards  // maintains RewardPerEth when the user entered the pool \
-  RewardPerEth += (weeklyRewardAdded/totalPoolDeposits) // Let's say pool has 500 eth as deposits and team adds 50 eth as rewards. 
+  RewardPerEth += (weeklyRewardAdded/totalPoolDeposits) 
 
  Let us understand above with an example: 
   
