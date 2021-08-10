@@ -12,9 +12,9 @@ Design can be little tricky because of :
 Liquiduty protocols like Uniswap/Compound mint/burn 'aTokens' to keep solve these issues. I have come up with an alternate and innovative algorithim to overcome the above two challenges. 
 
   uint256 totalRewardPerEth = 0;
-  mapping(address=>uint) providers; // maintains total deposits of each users
-  mapping(address=>uint) rewards;  // maintains totalRewardPerEth when the user entered the pool
-  totalRewardPerEth = weeklyRewardAdded/totalPoolDeposits; // Let's say pool has 500 eth as deposits and team adds 50 eth as rewards. 
+  mapping(address=>uint) providers; // maintains total deposits of each users \
+  mapping(address=>uint) rewards;  // maintains totalRewardPerEth when the user entered the pool \
+  totalRewardPerEth = weeklyRewardAdded/totalPoolDeposits; // Let's say pool has 500 eth as deposits and team adds 50 eth as rewards. \
 
  Let us understand above with an example: 
   
