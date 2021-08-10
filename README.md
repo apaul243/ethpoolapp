@@ -30,7 +30,7 @@ Liquiduty protocols like Uniswap/Compound mint/burn 'aTokens' to solve these iss
    userC{providers[address]:250, rewards[address]: 0.1} // For userC, rewards[address] has been set to RewardPerEth when he entered the pool. \
    RewardPerEth = 0.3
  
-**How much rewards will userA , userB and userC get if they want to withdraw at end of week2 ?**
+**How much rewards will userA , userB and userC get if they want to withdraw at end of week2 ?** \
     userA : (300)*(0.3 - 0.0) = 90 eth // formula = balance*(RewardPerEth at Pool Entry - RewardPerEth current) \
     userB : (200)*(0.3 - 0.0) = 60 eth \
     userC : (250)*(0.3 - 0.1) = 50 eth // 90+60+50 = 200 eth
