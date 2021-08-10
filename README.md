@@ -11,7 +11,7 @@ Design can be little tricky because of :
 # Solutions:
 Liquiduty protocols like Uniswap/Compound mint/burn 'aTokens' to solve these issues. I have come up with an innovative algorithim to overcome the above two challenges. 
 
-  uint256 totalRewardPerEth = 0;
+  uint256 totalRewardPerEth = 0; \
   mapping(address=>uint) providers; // maintains total deposits of each users \
   mapping(address=>uint) rewards;  // maintains totalRewardPerEth when the user entered the pool \
   totalRewardPerEth = weeklyRewardAdded/totalPoolDeposits; // Let's say pool has 500 eth as deposits and team adds 50 eth as rewards. 
