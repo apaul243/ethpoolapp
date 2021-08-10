@@ -11,24 +11,24 @@ Design can be little tricky because of : \
 **Solutions:** \
 Liquiduty protocols like Uniswap/Compound mint/burn 'aTokens' to solve these issues. I have come up with an innovative algorithim to overcome the above two challenges. 
 
-  uint256 RewardPerEth = 0 \
+ *uint256 RewardPerEth = 0 \
   mapping(address=>uint) providers // maintains total deposits of each users \
   mapping(address=>uint) rewards  // maintains RewardPerEth when the user entered the pool \
-  RewardPerEth += (weeklyRewardAdded/totalPoolDeposits) 
+  RewardPerEth += (weeklyRewardAdded/totalPoolDeposits)* 
 
  Let us understand above with an example: 
   
 **Let's say pool has 500 eth as deposits(userA -->300 eth, userB --> 200 eth) and team adds 50 eth as rewards. Now RewardPerEth = 50/500 = 0.1 reward per eth 
   of deposit.**
    
-   userA{providers[address]:300, rewards[address]: 0} // rewards mapping basically calculates the RewardPerEth when the user entered the pool \
+   *userA{providers[address]:300, rewards[address]: 0} // rewards mapping basically calculates the RewardPerEth when the user entered the pool \
    userB{providers[address]:200, rewards[address]: 0} \
-   RewardPerEth = 0.1 ( after team adds rewards)
+   RewardPerEth = 0.1 ( after team adds rewards)*
    
 **User C enters and adds 250 eth more to the pool. Team adds 150 more eth as rewards. Now RewardPerEth = 150/750 = 0.2 reward per eth**   
    
-   userC{providers[address]:250, rewards[address]: 0.1} // For userC, rewards[address] has been set to RewardPerEth when he entered the pool. \
-   RewardPerEth = 0.3
+   *userC{providers[address]:250, rewards[address]: 0.1} // For userC, rewards[address] has been set to RewardPerEth when he entered the pool. \
+   RewardPerEth = 0.3*
  
 **How much rewards will userA , userB and userC get if they want to withdraw at end of week2 ?** \
     userA : (300)*(0.3 - 0.0) = 90 eth // formula = balance*(RewardPerEth at Pool Entry - RewardPerEth current) \
@@ -41,7 +41,7 @@ Liquiduty protocols like Uniswap/Compound mint/burn 'aTokens' to solve these iss
 
 The above smart contract has been thoroughly tested using the chai/mocha framework using the examples given in the challenge statement. 
 
-## SMART CONTRACT SCRIPTS (deploy.js and ropstenDataLoad)
+## SMART CONTRACT SCRIPTS (deploy.js, ropstenDataLoad and getContractData)
 
 Four different accounts were created using Metamask wallet @Ropsten test network and funds were loaded using test faucet. Infura node was setup to connect to Ropsten net. Config is available in hardhat.config. 
 
@@ -51,12 +51,36 @@ Deploys the contract to Ropsten testnet and logs the address of the deployed con
 **ropstenDataLoad** \
 This script has been used for the following: (1) Perform depositEth() from users (2) perform depositRewards() from team (3) Provide methods to query contract state using ethers.provider
 
+**getContractData** \
+This script provides methods to : readUserBalance, readContractBalance, readTotalDeposits and readTotalRewards
+
+
 ## GraphQL Design
+High level graphQL design would look like something this:
 
-
-
-
-
-
+*type ethPool @entity {
+  id: ID! \
+  address: Bytes!     \
+  totalDeposits: BigInt! # uint256     \
+  totalRewards: BigInt! # uint256     \
+  Users: User   \
+}   \
+type User @entity {   \
+  id: ID!   \
+  address: Bytes!  \
+  totalEthProvided: BigInt! # uint256   \
+  deposits : Deposit   \
+  withdrawals : Withdrawal  \
+} \
+type Deposit @entity {  \
+  id: ID!  \
+  timestamp: Int!  \
+  amount: BigInt! # uint256   \
+}   \
+type Withdrawal @entity {  \
+  id: ID!  \
+  timestamp: Int!  \
+  amount: BigInt! # uint256  \
+}*
 
 
