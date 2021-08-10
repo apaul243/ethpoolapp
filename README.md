@@ -1,5 +1,8 @@
 # ethpoolapp
 
+**VERIFIED CONTRACT** : https://ropsten.etherscan.io/address/0x57c2d3113b5e483f8839248Da50f80eDfeb1EAD0 \
+**SUBGRAPH** : https://thegraph.com/studio/subgraph/ethpoolgraph/
+
 ## SMART CONTRACT DESIGN (ethPool.sol)
 
 Design can be little tricky because of : \
@@ -35,11 +38,10 @@ Liquiduty protocols like Uniswap/Compound mint/burn 'aTokens' to solve these iss
     userB : (200)*(0.3 - 0.0) = 60 eth \
     userC : (250)*(0.3 - 0.1) = 50 eth // 90+60+50 = 200 eth
 
- Note: This contract has been designed considering Users withdraw their complete deposits at once. Program might have to be modified if they do partial    withdrawals. In that case we will have (address => mapping(uint=>uint)) providers; which will keep record of RewardPerEth at every deposit.
-
 ## SMART CONTRACT TESTS (ethPoolTests.js)
 
 The above smart contract has been thoroughly tested using the chai/mocha framework using the examples given in the challenge statement. 
+**Command to run the tests: npx hardhat test**
 
 ## SMART CONTRACT SCRIPTS (deploy.js, ropstenDataLoad and getContractData)
 
@@ -49,16 +51,17 @@ Four different accounts were created using Metamask wallet @Ropsten test network
 Deploys the contract to Ropsten testnet and logs the address of the deployed contract
 
 **ropstenDataLoad** \
-This script has been used for the following: (1) Perform depositEth() from users (2) perform depositRewards() from team (3) Provide methods to query contract state using ethers.provider
+This script has been used for the following: (1) Perform depositEth() from users (2) perform depositRewards() from team (3) Provide methods to query contract state using ethers.provider. In order to use this script, please setup metamask ropsten account/accounts and provide the sa
 
 **getContractData** \
 This script provides methods to : readUserBalance, readContractBalance, readTotalDeposits and readTotalRewards
 
+**Note: In order to use these scripts and read from/write to the smart contract, please setup metamask ropsten account/accounts and provide the wallet key in the sample.env file**
 
 ## GraphQL Design
-High level graphQL design would look like something this:
+Ideal graphQL design would look like something this:
 
-*type ethPool @entity {
+*type ethPool @entity { \
   id: ID! \
   address: Bytes!     \
   totalDeposits: BigInt! # uint256     \
@@ -82,5 +85,18 @@ type Withdrawal @entity {  \
   timestamp: Int!  \
   amount: BigInt! # uint256  \
 }*
+
+## HOW TO RUN PROJECT ON YOUR LOCAL
+
+1. Pull the project using git clone {url}
+2. npm update (this will download all dependencies)
+3. npx hardhat compile
+4. npx hardhat test
+5. npx hardhat node
+6. npx hardhat run scripts/deploy.js
+
+You can modify the smart contract to make your own liquidity pool and deploy it easily using the above steps
+
+
 
 
