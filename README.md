@@ -56,7 +56,7 @@ This script has been used for the following: (1) Perform depositEth() from users
 **getContractData** \
 This script provides methods to : readUserBalance, readContractBalance, readTotalDeposits and readTotalRewards
 
-**Note: In order to use these scripts and read to/write from the smart contract, please setup metamask ropsten account/accounts and provide the wallet key in the sample.env file
+**Note: In order to use these scripts and read from/write to the smart contract, please setup metamask ropsten account/accounts and provide the wallet key in the sample.env file**
 
 ## GraphQL Design
 Ideal graphQL design would look like something this:
