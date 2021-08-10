@@ -11,31 +11,31 @@ Design can be little tricky because of :
 # Solutions:
 Liquiduty protocols like Uniswap/Compound mint/burn 'aTokens' to solve these issues. I have come up with an innovative algorithim to overcome the above two challenges. 
 
-  uint256 totalRewardPerEth = 0; \
-  mapping(address=>uint) providers; // maintains total deposits of each users \
-  mapping(address=>uint) rewards;  // maintains totalRewardPerEth when the user entered the pool \
-  totalRewardPerEth = weeklyRewardAdded/totalPoolDeposits; // Let's say pool has 500 eth as deposits and team adds 50 eth as rewards. 
+  uint256 RewardPerEth = 0 \
+  mapping(address=>uint) providers // maintains total deposits of each users \
+  mapping(address=>uint) rewards  // maintains RewardPerEth when the user entered the pool \
+  RewardPerEth += (weeklyRewardAdded/totalPoolDeposits) // Let's say pool has 500 eth as deposits and team adds 50 eth as rewards. 
 
  Let us understand above with an example: 
   
--> Let's say pool has 500 eth as deposits(userA -->300 eth, userB --> 200 eth) and team adds 50 eth as rewards. Now totalRewardPerEth = 50/500 = 0.1 reward per eth 
+-> Let's say pool has 500 eth as deposits(userA -->300 eth, userB --> 200 eth) and team adds 50 eth as rewards. Now RewardPerEth = 50/500 = 0.1 reward per eth 
    of deposit. 
    
-   userA{providers[address]:300, rewards[address]: 0} // rewards mapping basically calculates the totalRewardPerEth when the user entered the pool \
+   userA{providers[address]:300, rewards[address]: 0} // rewards mapping basically calculates the RewardPerEth when the user entered the pool \
    userB{providers[address]:200, rewards[address]: 0} \
-   totalRewardPerEth = 0.1 ( after team adds rewards)
+   RewardPerEth = 0.1 ( after team adds rewards)
    
--> User C enters and adds 250 eth more to the pool. Team adds 150 more eth as rewards. Now totalRewardPerEth = 150/750 = 0.2 reward per eth   
+-> User C enters and adds 250 eth more to the pool. Team adds 150 more eth as rewards. Now RewardPerEth = 150/750 = 0.2 reward per eth   
    
-   userC{providers[address]:250, rewards[address]: 0.1} // For userC, rewards[address] has been set to totalRewardPerEth when he entered the pool.
-   totalRewardPerEth = 0.3
+   userC{providers[address]:250, rewards[address]: 0.1} // For userC, rewards[address] has been set to RewardPerEth when he entered the pool.
+   RewardPerEth = 0.3
  
  -> How much rewards will userA , userB and userC get if they want to withdraw at end of week2 ?
-    userA : (300)*(0.3 - 0.0) = 90 eth // formula = balance*(totalRewardPerEth at Pool Entry - totalRewardPerEth current) \
+    userA : (300)*(0.3 - 0.0) = 90 eth // formula = balance*(RewardPerEth at Pool Entry - RewardPerEth current) \
     userB : (200)*(0.3 - 0.0) = 60 eth \
     userC : (250)*(0.3 - 0.1) = 50 eth // 90+60+50 = 200 eth
 
- Note: This contract has been designed considering Users withdraw their complete deposits at once. Program might have to be modified if they do partial    withdrawals. In that case we will have (address => mapping(uint=>uint)) providers; which will keep record of totalRewardPerEth at every deposit.
+ Note: This contract has been designed considering Users withdraw their complete deposits at once. Program might have to be modified if they do partial    withdrawals. In that case we will have (address => mapping(uint=>uint)) providers; which will keep record of RewardPerEth at every deposit.
 
 ## SMART CONTRACT TESTS (ethPoolTests.js)
 
