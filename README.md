@@ -9,7 +9,7 @@ Design can be little tricky because of :
 2. Different users have different entry point and they are not be eligible for rewards added before their entry into the pool (see challenge example) 
 
 # Solutions:
-Liquiduty protocols like Uniswap/Compound mint/burn 'aTokens' to keep solve these issues. I have come up with an alternate and innovative algorithim to overcome the above two challenges. 
+Liquiduty protocols like Uniswap/Compound mint/burn 'aTokens' to solve these issues. I have come up with an innovative algorithim to overcome the above two challenges. 
 
   uint256 totalRewardPerEth = 0;
   mapping(address=>uint) providers; // maintains total deposits of each users \
