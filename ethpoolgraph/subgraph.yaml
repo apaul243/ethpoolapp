@@ -1,0 +1,30 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: ethPool
+    network: ropsten
+    source:
+      address: "0x57c2d3113b5e483f8839248Da50f80eDfeb1EAD0"
+      abi: ethPool
+      startBlock: 10807359
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - customerDeposit
+        - customerWithdrawal
+        - rewardsAdded
+      abis:
+        - name: ethPool
+          file: ./abis/ethPool.json
+      eventHandlers:
+        - event: customerDeposit(uint256)
+          handler: handlecustomerDeposit
+        - event: customerWithdrawal(uint256)
+          handler: handlecustomerWithdrawal
+        - event: rewardsAdded(uint256)
+          handler: handlerewardsAdded
+      file: ./src/mapping.ts

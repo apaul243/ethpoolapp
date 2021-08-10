@@ -16,12 +16,14 @@ async function main() {
 	var contract = new ethers.Contract(contractAddress,ethPool.abi);
 	
 	/*User1 and User2 deposit 0.5 and 1 eth respectively */
-	var tx1 = await contract.connect(wallet1).depositEth({ value: ethers.utils.parseEther("0.5") })
-	var tx2 = await contract.connect(wallet2).depositEth({ value: ethers.utils.parseEther("1.0") })
+	var tx1 = await contract.connect(wallet1).depositEth({ value: ethers.utils.parseEther("1.2") })
+	var tx2 = await contract.connect(wallet2).depositEth({ value: ethers.utils.parseEther("0.7") })
 
 	/*Team adds 1 eth rewards*/
-	var tx3 = await contract.connect(teamWallet).addRewards({ value: ethers.utils.parseEther("1.0") })
+	var tx3 = await contract.connect(teamWallet).addRewards({ value: ethers.utils.parseEther("0.8") })
 	
+
+
 
 }
 

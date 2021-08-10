@@ -1,0 +1,20 @@
+type customerDeposit @entity {
+  id: ID!
+  address: Bytes
+  amt: BigInt! # uint256
+  timestamp: Int!
+}
+
+type customerWithdrawal @entity {
+  id: ID!
+  address: Bytes
+  amt: BigInt! # uint256
+  timestamp: Int!
+}
+
+type rewardsAdded @entity {
+  id: ID!
+  address: Bytes
+  amt: BigInt! # uint256
+  timestamp: Int!
+}

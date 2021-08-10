@@ -26,7 +26,8 @@ module.exports = {
     hardhat: {},
     ropsten: {
       url: "https://ropsten.infura.io/v3/b3e55492082b45fda1ee47bfb4edd681	",
-      accounts: [`${process.env.connectkey}`]
+      accounts: [`${process.env.connectkey}`],
+      gas: 4000000
     }
   },
   solidity: "0.8.3",
