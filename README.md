@@ -41,7 +41,7 @@ Liquiduty protocols like Uniswap/Compound mint/burn 'aTokens' to solve these iss
 
 The above smart contract has been thoroughly tested using the chai/mocha framework using the examples given in the challenge statement. 
 
-## SMART CONTRACT SCRIPTS (deploy.js and ropstenDataLoad)
+## SMART CONTRACT SCRIPTS (deploy.js, ropstenDataLoad and getContractData)
 
 Four different accounts were created using Metamask wallet @Ropsten test network and funds were loaded using test faucet. Infura node was setup to connect to Ropsten net. Config is available in hardhat.config. 
 
@@ -51,12 +51,36 @@ Deploys the contract to Ropsten testnet and logs the address of the deployed con
 **ropstenDataLoad** \
 This script has been used for the following: (1) Perform depositEth() from users (2) perform depositRewards() from team (3) Provide methods to query contract state using ethers.provider
 
+**getContractData** \
+This script provides methods to : readUserBalance, readContractBalance, readTotalDeposits and readTotalRewards
+
+
 ## GraphQL Design
+High level graphQL design would look like something this:
 
-
-
-
-
-
+*type ethPool @entity {
+  id: ID!
+  address: Bytes!   // Contract Address
+  totalDeposits: BigInt! # uint256  // Total deposits in the pool at a given time
+  totalRewards: BigInt! # uint256   // Total Rewards in the pool at a given time
+  Users: User
+}
+type User @entity {
+  id: ID!
+  address: Bytes!
+  totalEthProvided: BigInt! # uint256
+  deposits : Deposit
+  withdrawals : Withdrawal
+}
+type Deposit @entity {
+  id: ID!
+  timestamp: Int!
+  amount: BigInt! # uint256
+}
+type Withdrawal @entity {
+  id: ID!
+  timestamp: Int!
+  amount: BigInt! # uint256
+}*
 
 
